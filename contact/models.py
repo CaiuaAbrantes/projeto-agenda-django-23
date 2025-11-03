@@ -17,3 +17,6 @@ class Contact(models.Model):
     email=models.EmailField(max_length=254, blank=True) #blank da opicional no cadastro 
     created_date= models.DateTimeField(default=timezone.now)
     descripicion= models.TextField(blank=True)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
