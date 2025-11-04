@@ -12,3 +12,9 @@ class ContactAdimin(admin.ModelAdmin):
     list_per_page=5
     list_max_show_all=15
     list_display_links='id', 'first_name',
+
+
+@admin.register(models.Category)
+class CategoryAdimin(admin.ModelAdmin):
+    list_display= 'name',
+    ordering= '-id',
