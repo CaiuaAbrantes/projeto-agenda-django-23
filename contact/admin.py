@@ -5,13 +5,14 @@ from contact import models
 
 @admin.register(models.Contact)
 class ContactAdimin(admin.ModelAdmin):
-    list_display= 'id', 'first_name', 'last_name'
+    list_display= 'id', 'first_name', 'last_name', 'show'
     ordering='-id',
     #list_filter='created_date',
     search_fields='id', 'first_name', 'last_name'
     list_per_page=5
     list_max_show_all=15
-    list_display_links='id', 'first_name',
+    #list_display_links='id', 'first_name',
+    list_editable='first_name', 'last_name', 'show'
 
 
 @admin.register(models.Category)
