@@ -31,7 +31,7 @@
           placeholder="Search"
           id="search"
           name="q"
-          value="{{search_value}}" <!-- poderia ser tambem request.GET.q.strip -->
+          value="{{request.GET.q.strip}}" <!-- poderia ser tambem ser search_value -->
         >
       </form>
     </div>
