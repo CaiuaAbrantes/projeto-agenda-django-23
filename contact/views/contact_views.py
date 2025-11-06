@@ -1,4 +1,5 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.db.models import Q
 from contact.models import Contact
 # Create your views here.
 def index(request):
@@ -14,6 +15,36 @@ def index(request):
         'contact/index.html',
         context
     )
+
+
+def search(request):
+    search_value=request.GET.get('q', '').strip() #chave q e o name do seu form no html
+
+    if search_value == '':
+        return redirect('contact:index')
+
+    
+    print(search_value)
+
+
+    contacts= Contact.objects\
+        .filter(show=True)\
+        .filter(
+            Q(first_name__icontains=search_value) |
+            Q(last_name__icontains=search_value)         
+            )
+    context={
+        'contacts': contacts,
+        'site_title': "Search - ",
+        'search_value': search_value
+    }
+    return render(
+        request,
+        'contact/index.html',
+        context
+    )
+
+
 
 def contact(request, contact_id):
     # single_contact = Contact.objects.filter(pk=contact_id).first()
