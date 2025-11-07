@@ -11,13 +11,13 @@ def create(request):
             'contact/create.html',
             context
         )
-    else:
-        context={
-            'form': ContactForm(request.POST)
-        }
-        return render(
-            request,
-            'contact/create.html',
-            context
-        )
+    
+    context={
+        'form': ContactForm()
+    }
+    return render(
+        request,
+        'contact/create.html',
+        context
+    )
 
