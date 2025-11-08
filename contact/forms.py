@@ -23,7 +23,7 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model= models.Contact
         fields= ('first_name', 'last_name', 'phone',
-                 'email', 'description', 'category')
+                 'email', 'description', 'category',)
 
         #widgets={
         #    'first_name': forms.TextInput(
