@@ -1,16 +1,21 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from contact.forms import ContactForm
+from django.urls import reverse
+from contact.models import Contact
 
 def create(request):
+    form_action=reverse('contact:create') #vai fazer dinamico a action em create.html
+
     if request.method== 'POST':
         form=ContactForm(request.POST)
         context={
-            'form': form
+            'form': form,
+            'form_action':form_action
         }
         if form.is_valid():
             contact = form.save(commit=False)
             contact.save()
-            return redirect('contact:create')
+            return redirect('contact:update', contact_id=contact.pk)
 
         return render(
             request,
@@ -19,7 +24,8 @@ def create(request):
         )
     
     context={
-        'form': ContactForm()
+        'form': ContactForm(),
+        'form_action':form_action,
     }
     return render(
         request,
@@ -27,3 +33,34 @@ def create(request):
         context
     )
 
+def update(request, contact_id):
+    contact=get_object_or_404(Contact, pk=contact_id, show=True)
+
+    form_action=reverse('contact:update', args=(contact_id,)) 
+
+    if request.method== 'POST':
+        form=ContactForm(request.POST, instance=contact) #mostra que ja tem os dados do contact apenas e para atualizar
+        context={
+            'form': form,
+            'form_action':form_action
+        }
+        if form.is_valid():
+            contact = form.save(commit=False)
+            contact.save()
+            return redirect('contact:update', contact_id=contact.pk)
+
+        return render(
+            request,
+            'contact/create.html',
+            context
+        )
+    
+    context={
+        'form': ContactForm(instance=contact),
+        'form_action':form_action,
+    }
+    return render(
+        request,
+        'contact/create.html',
+        context
+    )
