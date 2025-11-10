@@ -7,7 +7,7 @@ def create(request):
     form_action=reverse('contact:create') #vai fazer dinamico a action em create.html
 
     if request.method== 'POST':
-        form=ContactForm(request.POST)
+        form=ContactForm(request.POST, request.FILES)
         context={
             'form': form,
             'form_action':form_action
@@ -39,7 +39,7 @@ def update(request, contact_id):
     form_action=reverse('contact:update', args=(contact_id,)) 
 
     if request.method== 'POST':
-        form=ContactForm(request.POST, instance=contact) #mostra que ja tem os dados do contact apenas e para atualizar
+        form=ContactForm(request.POST, request.FILES, instance=contact) #mostra que ja tem os dados do contact apenas e para atualizar
         context={
             'form': form,
             'form_action':form_action
