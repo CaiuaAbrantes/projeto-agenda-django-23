@@ -28,12 +28,13 @@ def login_view(request):
     if request.method == 'POST':
         form =AuthenticationForm(request, data=request.POST)
 
-    if form.is_valid():
-        user = form.get_user()
-        auth.login(request, user)
-        messages.success(request, 'Logado com sucesso')
-        return redirect('contact:index')
-    messages.error(request, 'Login invalido')
+        if form.is_valid():
+            user = form.get_user()
+            auth.login(request, user)
+            messages.success(request, 'Logado com sucesso')
+            return redirect('contact:index')
+        else:
+            messages.error(request, 'Login invalido')
      
 
     return render(
