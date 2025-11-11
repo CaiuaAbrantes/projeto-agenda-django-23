@@ -2,22 +2,28 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
 from contact.models import Contact
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
+@login_required(login_url='contact:login')
 def index(request):
-    contacts= Contact.objects\
-        .filter(show=True)\
-        .order_by('-id')
-    paginator = Paginator(contacts, 10)  # Show 10 contacts per page.
+    contacts = Contact.objects.filter(
+        show=True,
+        owner=request.user
+    ).order_by('-id')
+
+    paginator = Paginator(contacts, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context={
+
+    context = {
         'page_obj': page_obj,
-        'site_title': "Contatos - "
+        'site_title': "Seus Contatos - "
     }
     return render(
         request,
-        'contact/index.html',
-        context
+        'contact/index.html', 
+        context,
     )
 
 
