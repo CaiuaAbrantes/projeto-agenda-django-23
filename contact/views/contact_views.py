@@ -5,8 +5,29 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-@login_required(login_url='contact:login')
+#@login_required(login_url='contact:login')
 def index(request):
+    contacts = Contact.objects.filter(
+        show=True,
+        #owner=request.user, para mostrar apenas os contatos que o usuario e owner
+    ).order_by('-id')
+
+    paginator = Paginator(contacts, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+        'site_title': "Seus Contatos - "
+    }
+    return render(
+        request,
+        'contact/index.html', 
+        context,
+    )
+
+@login_required(login_url='contact:login')
+def owner_contacts(request):
     contacts = Contact.objects.filter(
         show=True,
         owner=request.user
@@ -25,6 +46,8 @@ def index(request):
         'contact/index.html', 
         context,
     )
+
+
 
 
 def search(request):

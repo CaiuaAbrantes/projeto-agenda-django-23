@@ -17,6 +17,9 @@
         <li class="menu-item">
           <a href="{% url 'contact:logout' %}" class="menu-link">Logout</a>
         </li>
+        <li class="menu-item">
+          <a href="{% url 'contact:owner' %}" class="menu-link">Owner</a>
+        </li>
       {% else %}
         <li class="menu-item">
           <a href="{% url 'contact:login' %}" class="menu-link">Login</a>
